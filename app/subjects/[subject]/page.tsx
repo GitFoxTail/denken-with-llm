@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getQuestions } from "@/lib/questions";
+import { mathToPlain } from "@/lib/mathToPlain";
 
 const SUBJECT_LABELS: Record<string, string> = {
     riron: "理論",
@@ -9,7 +10,7 @@ const SUBJECT_LABELS: Record<string, string> = {
 };
 
 type Props = {
-    params: { subject: string };
+    params: Promise<{ subject: string }>;
 };
 
 export default async function SubjectPage({ params }: Props) {
@@ -19,6 +20,14 @@ export default async function SubjectPage({ params }: Props) {
 
     return (
         <main className="p-5 max-w-2xl mx-auto">
+
+            {/* パンくず */}
+            <nav className="text-sm text-gray-500 mb-6">
+                <Link href="/" className="hover:underline">トップ</Link>
+                <span className="mx-2">›</span>
+                <span>{label}</span>
+            </nav>
+
             <h1 className="text-3xl font-bold mb-6">{label} 過去問一覧</h1>
 
             {questions.length === 0 ? (
@@ -32,14 +41,19 @@ export default async function SubjectPage({ params }: Props) {
                             className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition"
                         >
                             <div>
-                                <span className="font-semibold">{q.year}年 第{q.round}回 問{q.number}</span>
-                                <p className="text-sm text-gray-500 mt-1 line-clamp-1">{q.question}</p>
+                                <span className="font-semibold">
+                                    {q.year}年 第{q.round}回 問{q.number}
+                                </span>
+                                <p className="text-sm text-gray-500 mt-1 line-clamp-1">
+                                    {mathToPlain(q.question)}
+                                </p>
                             </div>
                             <span className="text-gray-400">›</span>
                         </Link>
                     ))}
                 </div>
             )}
+
         </main>
     );
 }
