@@ -13,7 +13,7 @@ type Props = {
 };
 
 const SUBJECT_LABELS: Record<string, string> = {
-    rikron: "理論",
+    riron: "理論",
     denryoku: "電力",
     kikai: "機械",
     hoki: "法規",
@@ -42,11 +42,14 @@ export default function QuestionPage({ params }: Props) {
 
             {/* タイトル */}
             <h1 className="text-xl font-bold mb-6">
-                {label}｜{question.year}年 第{question.round}回 問{question.number}
+                {label}｜{question.year}年度 {question.round === 1 ? "上期" : "下期"} 問{question.number}
             </h1>
 
+            {/* AIコピーボタン */}
+            <AiCopyButton question={question} subject={subject} />
+
             {/* 問題文 */}
-            <section className="mb-6 p-4 bg-gray-50 rounded-lg leading-relaxed">
+            <section className="my-6 p-4 bg-gray-50 rounded-lg leading-relaxed">
                 <MathText text={question.question} />
             </section>
 
@@ -66,7 +69,7 @@ export default function QuestionPage({ params }: Props) {
 
             {/* 選択肢 */}
             <section className="mb-6 space-y-3">
-                {(["1", "2", "3", "4", "5"] as const).map((key) => {
+                {([1, 2, 3, 4, 5] as const).map((key) => {
                     const isAnswer = showAnswer && question.answer === key;
                     return (
                         <div
@@ -109,9 +112,6 @@ export default function QuestionPage({ params }: Props) {
                     </div>
                 )}
             </div>
-
-            {/* AIコピーボタン */}
-            <AiCopyButton question={question} subject={subject} />
 
             {/* 前後ナビ */}
             <QuestionNav subject={subject} currentId={id} />

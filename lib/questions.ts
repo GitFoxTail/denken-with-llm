@@ -10,7 +10,7 @@ export type Question = {
   number: number;
   question: string;
   choices: Record<string, string>;
-  answer: string;
+  answer: number;
   hasImage: boolean;
   images: string[];
   tags: string[];

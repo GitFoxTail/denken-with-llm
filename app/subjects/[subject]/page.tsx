@@ -42,7 +42,7 @@ export default async function SubjectPage({ params }: Props) {
                         >
                             <div>
                                 <span className="font-semibold">
-                                    {q.year}年 第{q.round}回 問{q.number}
+                                    {q.year}年度 {q.round === 1 ? "上期" : "下期"} 問{q.number}
                                 </span>
                                 <p className="text-sm text-gray-500 mt-1 line-clamp-1">
                                     {mathToPlain(q.question)}
